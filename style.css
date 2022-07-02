@@ -1,0 +1,19 @@
+.container {
+    display: grid;
+    max-width: 1000px;
+    margin: 0px auto;
+}
+
+.containerA {
+    grid-template-columns: 20% 80%;
+}
+
+.containerB {
+    grid-template-columns: 80% 20%;
+}
+
+.item {
+    height: 100%;
+    width: 100%;
+    text-align: center;
+}

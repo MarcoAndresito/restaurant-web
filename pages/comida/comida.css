@@ -1,0 +1,22 @@
+.sectionTable {
+    padding: 20px;
+    border-radius: 25px;
+    background-color: #e3e2ff;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+td {
+    text-align: center;
+}
+
+tr {
+    border-bottom: 0.5px solid #080d96;
+}
+
+thead tr {
+    border-bottom: 0.5px solid #020325;
+}

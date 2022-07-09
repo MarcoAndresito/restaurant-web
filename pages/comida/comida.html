@@ -39,14 +39,55 @@
                             Codigo
                         </th>
                         <th>
-                            Nombre comida
+                            Nombre
+                        </th>
+                        <th>
+                            Precio
+                        </th>
+                        <th>
+                            Descripcion
                         </th>
                     </tr>
                 </thead>
                 <tbody id="tBodyComida"></tbody>
-                <tfoot></tfoot>
+                <tfoot>
+                    <tr>
+                        <td colspan="4">
+                            <button onclick="showModal()">Nuevo</button>
+                        </td>
+                    </tr>
+                </tfoot>
             </table>
 
+        </section>
+
+        <section>
+            <div id="formModal" class="modal-hide">
+                <div class="modal-content">
+                    <form onsubmit="submitComida(event)">
+                        <div class="form-control">
+                            <label for="id">Id: </label>
+                            <input type="number" id="id" name="id" />
+                        </div>
+                        <div class="form-control">
+                            <label for="nombre">Nombre: </label>
+                            <input type="text" name="nombre" id="nombre">
+                        </div>
+                        <div class="form-control">
+                            <label for="precio">Precio: </label>
+                            <input type="number" name="precio" id="precio">
+                        </div>
+                        <div class="form-control">
+                            <label for="descripcion">Descripcion:</label>
+                            <textarea name="descripcion" id="descripcion" rows="5"></textarea>
+                        </div>
+                        <div class="form-action">
+                            <button type="submit">Guardar</button>
+                            <button type="reset" onclick="hideModal()">Cerrar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </section>
 
     </main>

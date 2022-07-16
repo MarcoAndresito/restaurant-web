@@ -10,7 +10,7 @@ async function getComidas() {
 
 function comidaToElement(comida) {
     var tr = document.createElement("tr");
-    
+
     // id
     var td_id = document.createElement("td");
     td_id.innerText = comida.id;
@@ -31,7 +31,59 @@ function comidaToElement(comida) {
     td_descripcion.innerText = comida.descripcion;
     tr.appendChild(td_descripcion);
 
+    // boton eliminar
+    var button_elliminar = document.createElement('button');
+    button_elliminar.addEventListener("click", function () { eliminarComida(comida.id) });
+    button_elliminar.textContent = "Eliminar";
+    button_elliminar.type = "button";
+
+    // boton editar
+    var button_editar = document.createElement("button");
+    button_editar.addEventListener("click", function () { editarComida(comida.id) });
+    button_editar.textContent = "Editar";
+    button_editar.type = "button";
+
+    // acciones
+    var td_actions = document.createElement('td');
+    td_actions.appendChild(button_elliminar);
+    td_actions.appendChild(button_editar);
+    tr.appendChild(td_actions);
+
     return tr;
+}
+
+async function editarComida(id) {
+    var requestOptions = {
+        method: 'GET'
+    }
+
+    var comida = await fetch('https://restaurant-5.herokuapp.com/Comida/' + id, requestOptions)
+        .then(response => response.json())
+
+    document.getElementById('id').value = comida.id;
+    document.getElementById('nombre').value = comida.nombre;
+    document.getElementById('precio').value = comida.precio;
+    document.getElementById('descripcion').value = comida.descripcion;
+
+    document.getElementById('modalTitle').innerText = "Editar Comida";
+
+    showModal();
+}
+
+function eliminarComida(id) {
+    var requestOptions = {
+        method: 'DELETE',
+        redirect: 'follow',
+        headers: {
+            'origin': 'localhost',
+            'Access-Control-Allow-Origin': '*'
+        }
+    };
+
+    fetch("https://restaurant-5.herokuapp.com/Comida/" + id, requestOptions)
+        .then(response => response.json())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
 }
 
 function appendTableComida(element) {
@@ -52,6 +104,17 @@ async function loadTable() {
 
 }
 
+function nuevaComida() {
+    document.getElementById('id').value = 0;
+    document.getElementById('nombre').value = "";
+    document.getElementById('precio').value = 0;
+    document.getElementById('descripcion').value = "";
+
+    document.getElementById('modalTitle').innerText = "Nueva Comida";
+
+    showModal();
+}
+
 function showModal() {
     var formModal = document.getElementById('formModal');
     formModal.classList.remove('modal-hide');
@@ -65,28 +128,44 @@ function hideModal() {
     formModal.classList.add('modal-hide');
 }
 
-function submitComida(event) {
+async function submitComida(event) {
     event.preventDefault();
 
     var id = document.getElementById('id').value;
     var nombre = document.getElementById('nombre').value;
-    var precio = document.getElementById('precio').value;
+    var precio = parseInt(document.getElementById('precio').value);
     var descripcion = document.getElementById('descripcion').value;
 
-    var data = {
-        "id": id,
-        "nombre": nombre,
-        "precio": precio,
-        "descripcion": descripcion
-    };
+    var data = {};
+    var requestOptions = {};
+    console.log(id);
+    if (id > 0) {
+        data = {
+            "id": id,
+            "nombre": nombre,
+            "precio": precio,
+            "descripcion": descripcion
+        };
+        requestOptions = {
+            method: 'PUT',
+            body: JSON.stringify(data),
+            redirect: 'follow',
+        };
+    }
+    else {
+        data = {
+            "nombre": nombre,
+            "precio": precio,
+            "descripcion": descripcion
+        };
+        requestOptions = {
+            method: 'POST',
+            body: JSON.stringify(data),
+            redirect: 'follow',
+        };
+    }
 
-    var requestOptions = {
-        method: 'POST',
-        body: JSON.stringify(data),
-        redirect: 'follow'
-    };
-
-    fetch("https://restaurant-5.herokuapp.com/Comida", requestOptions)
+    await fetch("https://restaurant-5.herokuapp.com/Comida", requestOptions)
         .then(response => response.json())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));

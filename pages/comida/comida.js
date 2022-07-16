@@ -74,10 +74,7 @@ function eliminarComida(id) {
     var requestOptions = {
         method: 'DELETE',
         redirect: 'follow',
-        headers: {
-            'origin': 'localhost',
-            'Access-Control-Allow-Origin': '*'
-        }
+        mode: "no-cors"
     };
 
     fetch("https://restaurant-5.herokuapp.com/Comida/" + id, requestOptions)

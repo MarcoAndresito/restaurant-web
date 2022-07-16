@@ -74,7 +74,6 @@ function eliminarComida(id) {
     var requestOptions = {
         method: 'DELETE',
         redirect: 'follow',
-        mode: "no-cors"
     };
 
     fetch("https://restaurant-5.herokuapp.com/Comida/" + id, requestOptions)

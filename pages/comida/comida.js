@@ -158,6 +158,7 @@ async function submitComida(event) {
             method: 'POST',
             body: JSON.stringify(data),
             redirect: 'follow',
+            headers:{'content-type': 'application/json'},
         };
     }
 
